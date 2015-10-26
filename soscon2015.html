@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>IoT.js and JerryScript</title>
+
+    <meta name="description" content="IoT.js on SOSCON 2015">
+    <meta name="author" content="Chunseok Lee">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/serif.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <style>
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4,
+      .reveal h5,
+      .reveal h6 {
+      text-transform: none;
+      }
+    </style>
+
+    <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+
+      <div class="slides">
+        <section>
+          <h2>Introduction to </br> IoT.js & JerryScript </h2>
+          <p>
+           Chunseok Lee</br>
+           <small>@ Samsung Electronics </small>
+          </p>
+        </section>
+
+        <section>
+          <h2>IoT.js & JerryScript</h2>
+          <div>
+            <img src=iot.jpg height=150>
+            <img src=nodejs-green.png height=150>
+            <img src=js.png height=150>
+
+          </div>
+          <div>
+            <p> IoT.js : Node.js-compatible platform for <strong>IoT devices </strong>
+            <p> JerryScript : JavaScript engine for <strong>IoT devices</strong>
+          </div>
+
+        </section>
+
+
+
+
+        <section>
+          <h2>Dev History</h2>
+          <table>
+            <tr>
+              <td>2014 Mar ~</td>
+              <td>JerryScript</td>
+            </tr>
+            <tr>
+              <td>2015 Jan ~</td>
+              <td>IoT.js</td>
+            </tr>
+            <tr>
+              <td>2015 Jun ~</td>
+              <td>Open on Github</td>
+            </tr>
+          </table>
+        </section>
+
+          <section>
+            <h2>Dev Team</h2>
+            <p> Samsung + Szeged Univ.
+            <p> KOR + RUS + UK + GER + HUN
+        </section>
+
+          <section>
+            <h2>Please Fork Me on Github</h2>
+            <p> <a href="https://github.com/Samsung/iotjs" target="_blank">https://github.com/Samsung/iotjs </a>
+            <p> <a href="https://github.com/Samsung/jerryscript" target="_blank">https://github.com/Samsung/jerryscript </a>
+          </section>
+
+
+          <section>
+            <section>
+              <h2>Why JavaScript/Node.js <br> in constrained devices ?</h2>
+              <aside class="notes">
+                <li>Node.js/JS has benefit despite of cons
+              </aside>
+            </section>
+
+            <section>
+              <h2>Web</h2>
+              <p> Most Succuessful Ecosystem in history<p>
+                <img src="ecosystem.png" height=300>
+            </section>
+
+          <section>
+            <h2>JavaScript</h2>
+            <p> Most Popular Language<p>
+              <img src="ranklist.png" height=450>
+              <img src="lang.png" height=450>
+              <small>from https://redmonk.com/sogrady/2015/01/14/language-rankings-1-15/</small>
+          </section>
+
+          <section>
+            <h2>Node.js</h2>
+            <p> Most Popular JS Platform <p>
+              <ol>
+                <li>Well-known Progamming Model
+                <li>Strong ecosystem and package management system
+              </ol>
+
+            <img src="npm.png" height=350>
+          </section>
+
+        </section>
+
+        <section>
+          <h2>Q. V8/Node.js on IoT devices?</h2>
+          <img src=iotdevices.png width=500>
+           <table>
+            <tr>
+              <td>Node.js</td>
+              <td>11MB flash</td>
+              <td>2MB RAM</td>
+            </tr>
+            <tr>
+              <td>V8</td>
+              <td>5MB flash</td>
+              <td>2MB RAM</td>
+            </tr>
+          </table>
+        </section>
+
+        <!-- Jerryscript section below-->
+        <section>
+          <h2>JerryScript</h2>
+          <p>JavaScript engine for IoT devices
+        </section>
+
+        <section>
+          <h2>Design Principle: <br>Low Memory</h2>
+          <p> Pure Interpreter(no JIT)
+          <p> Compact Object Representation
+          <p> no AST construction during parsing
+        </section>
+
+        <section>
+          <h2>Status</h2>
+          <ul>
+            <li> Embedding API (in progress, partially supported)
+            <li> ECMAScript 5.1 Compliant : Test262 pass rate 98.5%
+            <li> Startup heap size : 2KB(x64 linux)
+            <li> bytecode snapshot support
+            <li> Low dependency on platform : own libc library
+            <li> Linux, NuttX(RTOS), OSX
+          </ul>
+        </section>
+
+
+        <section>
+          <h2>Target Segment</h2>
+          <img src="target_segment.png">
+        </section>
+
+        <section>
+          <h2>Embedding API(1)</h2>
+          <p>Execute JavaScript from your application<p>
+            <pre>
+              <code>
+#include "jerry.h"
+
+int
+main (int argc, char * argv[]) {
+  char script [] = "print ('Hello, World!');";
+
+  jerry_completion_code_t code = jerry_run_simple (script,
+                                                   strlen (script),
+                                                   JERRY_FLAG_EMPTY);
+}
+              </code>
+            </pre>
+        </section>
+
+        <section>
+          <h2>Embedding API(2)</h2>
+          <p>Interaction with JavaScript environment<p>
+            <pre>
+              <code>
+#include "jerry.h"
+
+int
+main (int argc, char * argv[]) {
+  char str [] = "Hello, World!";
+  char var_name [] = "s";
+  char script [] = "print (s);";
+
+  // Initializing JavaScript environment
+  jerry_init (JERRY_FLAG_EMPTY);
+
+  // Getting pointer to the Global object
+  jerry_api_object_t *obj_p = jerry_api_get_global_object ();
+
+  // Constructing string
+  jerry_api_string_t *str_val_p = jerry_api_create_string (str);
+
+  // Constructing string value descriptor
+  jerry_api_value_t val;
+  val.type = JERRY_API_DATA_TYPE_STRING;
+  val.string_p = str_val_p;
+
+  // Setting the string value to field of the Global object
+  jerry_api_set_object_field_value (obj_p, var_name, &val);
+
+  // Releasing string value, as it is no longer necessary outside of engine
+  jerry_api_release_string (str_val_p);
+
+  // Same for pointer to the Global object
+  jerry_api_release_object (obj_p);
+
+  jerry_api_value_t eval_ret;
+
+  // Now starting script that would output value of just initialized field
+  jerry_api_eval (script, strlen (script),
+                  false, false, &eval_ret);
+  jerry_api_release_value (&eval_ret);
+
+  // Freeing engine
+  jerry_cleanup ();
+}
+              </code>
+            </pre>
+        </section>
+
+        <section>
+          <h2>Small Memory Footprint</h2>
+          <p> JerryScript/Duktape/V8 <p>
+          <img src="mem_comparison.png" height=500>
+          <p><small> *duktape : "embeddable Javascript engine, with a focus on portability and compact footprint" </small>
+        </section>
+
+        <section>
+          <h2>Benchmark: SunSpider</h2>
+          <img src="sunspider.png">
+        </section>
+
+        <section>
+          <h2>Benchmark: ubench</h2>
+          <img src="ubench.png">
+        </section>
+
+
+
+        <!-- IoT.js section below-->
+        <section>
+          <h2>IoT.js</h2>
+          <p>Node.js-compatible platform for IoT devices
+        </section>
+
+        <section>
+          <h2>Goal of IoT.js</h2>
+          <p> Small memory consumption
+          <p> Backward compatibility to Node.js app : API, (package)
+        </section>
+
+        <section>
+          <h2>IoT.js Architecture</h2>
+          <img src="architecture.png" height=400>
+          <aside class="notes">
+            <p>1. first jerryscript application
+            <p>2. abstract layer for JS engine & asynch event handling library
+            <p>3. many JS code should be optimized
+            <p>Q. libtuv ?
+          </aside>
+        </section>
+
+
+
+        <section data-markdown>
+          ## Status: API
+          * [Assert](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-Assert)
+          * [Buffer](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-Buffer)
+          * [DNS](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-DNS)
+          * [Events](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-Events)
+          * [File System](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-File-System)
+          * [HTTP](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-HTTP)
+          * [Modules](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-Module)
+          * [Net](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-Net)
+          * [Process](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-Process)
+          * [Stream](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-Stream)
+          * [Timers](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-Timers)
+          * [GPIO](https://github.com/Samsung/iotjs/wiki/IoT.js-API:-GPIO)
+        </section>
+
+        <section>
+          <h2>Snapshot on IoT.js</h2>
+          <p> JS heap available on STM32F4 : 78KB
+          <p> Running http server on IoT.js requires 128KB JS heap
+          <p> Sol: AOT bytecode construction for iot.js JS modules
+        </section>
+
+        <section>
+          <h2>Status: <br>memory consumption</h2>
+          <p> JS heap consumption
+            <table>
+              <tr>
+                <td></td>
+                <td>IoT.js</td>
+                <td>Node.js</td>
+              </tr>
+
+             <tr>
+              <td>require(http)</td>
+              <td>49k bytes</td>
+              <td>2.1M</td>
+            </tr>
+            <tr>
+              <td>require(http+gpio)</td>
+              <td>54k bytes</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>http server + require(gpio)</td>
+              <td>71k bytes</td>
+              <td>2.4M bytes</td>
+            </tr>
+            <tr>
+              <td>http server with 1.7k response</td>
+              <td>76k bytes</td>
+              <td>3.1M bytes</td>
+              <td></td>
+            </tr>
+             <tr>
+              <td>JS heap size</td>
+              <td>77k(STM32F4)</td>
+              <td>-</td>
+            </tr>
+          </table>
+        </section>
+
+        <!-- DEMO section below-->
+        <section>
+          <h2>Reference Hardware</h2>
+          <P> STM32F4 discovery board <p>
+          <p> Cortex-M4F core, 128kb RAM+64kb CCM, 1M flash <p>
+          <img src="stm32f4_discovery.jpg" height=300>
+        </section>
+
+        <section>
+          <h2>Demo</h2>
+
+          <p> JS execution via Web Browser <p>
+          <small>http server is running on STM32F4 </small> <p>
+            <img src="demo1.jpg" width=250 height=400>
+            <img src="demo2.jpg" width=500 height=300>
+        </section>
+
+<section>
+          <h2>Demo(code)</h2>
+
+          <p>
+          <strong>server JS code</strong>
+          <pre><code class="hljs">
+var http = require('http');
+var server = http.createServer(function(req, res) {
+  var data = '';
+  if (req.url == '/') {
+    res.writeHead(200, { 'Connection' : 'close',
+                       'Content-Length' : htmldata.length
+                       });
+    res.end(htmldata);
+  }
+
+  if (req.method == 'POST') {
+    req.on('data', function(chunk) {
+      console.log('data:'+chunk);
+      data = data + chunk;
+    });
+    req.on('end', function() {
+      var result = eval(data);
+      data =null;
+      res.end(result);
+    });
+  }
+
+});
+          </code></pre>
+
+        </section>
+
+        <section>
+          <h2>Demo(Video)</h2>
+
+          <p> JS execution via Web Browser <br>
+
+            <video height="500" controls muted>
+              <source src="iotjs_soscon.mp4" type="video/mp4">
+            </video>
+
+        </section>
+
+
+
+
+
+
+         <section>
+           <h2>Future Work</h2>
+           <p> Smaller memory footprint/binary size
+           <p> JerryScript Embedding API Enhanchment
+           <p> IoT.js package management system
+           <p> Support more devices
+         </section>
+
+         <section>
+           <h2>By Your Participation</h2>
+            <h3>Please Fork Me on Github</h3>
+            <p> <a href="https://github.com/Samsung/iotjs" target="_blank">https://github.com/Samsung/iotjs </a>
+            <p> <a href="https://github.com/Samsung/jerryscript" target="_blank">https://github.com/Samsung/jerryscript </a>
+
+              <h3>Thank You</h3>
+          </section>
+
+
+
+
+
+      </div>
+
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+      controls: true,
+      progress: true,
+      history: true,
+      center: true,
+
+      transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+      // Optional reveal.js plugins
+      dependencies: [
+      { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'plugin/zoom-js/zoom.js', async: true },
+      { src: 'plugin/notes/notes.js', async: true }
+      ]
+      });
+
+    </script>
+
+  </body>
+</html>
